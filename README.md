@@ -29,6 +29,14 @@ Un PCB peut être commandé chez n'importe quel fabriquant de PCB en utilisant l
 
 Le Raspberry PICO se soude par dessous le PCB (en tout dernier) la sortie USB est dans le même sens que la prise JACK, tout le reste se soude au-dessus.
 
+### Impression 3D
+![3D](_docs/Capture3D.PNG)
+
+Un boitier en 2 parties haute et basse compatible avec le PCB peut être imprimé en 3D.
+les fichiers STL sont dans le dossier /STL.
+Les deux éléments s'impriment face pleine vers le bas.
+Seule la partie basse nécessite des supports à cause de l'ouverture USB du raspberry PICO
+
 ## Scripts Micro-python
 
 Si vous configurez votre Raspberry PICO pour la première fois, suivez [ce guide](https://www.papsdroid.fr/post/hello-pico)
