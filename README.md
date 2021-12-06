@@ -1,7 +1,32 @@
 # picoleds_v2
 
-![picoleds](_docs\picoled.jpg)
+![picoleds](_docs/picoled.jpg)
 
 Ruban de leds RGB commandé par un Raspberry PICO
+
+## Electronique
+
+### circuit électronique
+![fritzing](_docs/picoLeds_v2_fritzing.png)
+Un bouton poussoir (RESET) sert à faire un reset du circuit pour pouvoir reprogrammer le microcontrôleur par exemple.
+L'autre bouton poussoir (USR) sert à modifier les animations. La diode Shottky SR560 est nécessaire si vous branchez le câble micro-usb en même temps que l'alimentation externe 5v: elle sert à éviter que les alimentations se "percuttent".
+
+
+### Circuit imprimé
+![PCB](_docs/PCB.PNG)
+Un PCB peut être commandé chez n'importe quel fabriquant de PCB en utilisant les fichier GERBER dans le dossier /KICAD_GERBER
+Matériel nécessaire:
+* un rapsberry PICO avec 2 rangées de 20 PIN Header soudées
+* une diode shottkey SR560
+* un petit bornier à souder 3pin 2.54mm (pour y brancher les 3 fils du ruban de leds)
+* un condensateur polarisé 470uF
+* une prise Jack à souder
+* une alimentation 5v-2A Jack (si plus de 100 leds: prendre 3A)
+* 2 petits boutons poussoir 6mm à souder
+* Un ruban de leds RGB WS2812 (au delà de 100 leds il faudra envisager une alimentation 5v de 3A)
+
+
+
+
 
 
