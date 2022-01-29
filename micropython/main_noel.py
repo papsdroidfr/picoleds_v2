@@ -1,14 +1,14 @@
 #RUNS ON PICO
 from ledRGBws2812 import LedsRGBws2812
 from machine import Pin
-import time
+import time, machine
 
 class Application:
     
     def __init__(self):
         ''' initialize leds RGB and push Button'''
         self.ledStatus = Pin(25, Pin.OUT)     # led témoin du pico
-        self.leds = LedsRGBws2812(pin_num=14, n_leds=80, brightness=0.2)  # ruban de leds 
+        self.leds = LedsRGBws2812(pin_num=14, n_leds=48, brightness=0.4)  # ruban de leds 
         self.button = Pin(15, Pin.IN, Pin.PULL_DOWN) #bouton poussoir avec resistance de rappel activée
         self.leds.pixels_off()
         self.leds.animation = ''
@@ -27,31 +27,31 @@ class Application:
     def anim_cool_clignotante(self, nb_repet=1):
         for i in range(nb_repet):
             #anim wheel fade in
-            self.leds.fade_wheel()
+            self.leds.fade_wheel(wait=0.02)
             self.leds.pixels_off()
-            self.leds.shuffle_wheel()
+            self.leds.shuffle_wheel(wait=0.02)
             self.leds.pixels_off()
  
             #anim random fade out, sans rouge
-            self.leds.fade_in(n_steps=10, color=(0,127,127) )
-            self.leds.fade_out(n_steps=10, color=(0,127,127) )
-            self.leds.shuffle_random(red=False)  
+            self.leds.fade_in(n_steps=20, color=(0,127,127) )
+            self.leds.fade_out(n_steps=20, color=(0,127,127) )
+            self.leds.shuffle_random(red=False, wait=0.02)  
             
             #anim random fade out, sans vert
-            self.leds.fade_in(n_steps=10, color=(127,0,127) )
-            self.leds.fade_out(n_steps=10, color=(127,0,127) )
-            self.leds.shuffle_random(green=False)
+            self.leds.fade_in(n_steps=20, color=(127,0,127), wait=0.02 )
+            self.leds.fade_out(n_steps=20, color=(127,0,127), wait=0.02 )
+            self.leds.shuffle_random(green=False, wait=0.02)
             
             #anim random fade out, sans bleu
-            self.leds.fade_in(n_steps=10, color=(127,127,0) )
-            self.leds.fade_out(n_steps=10, color=(127,127,0) )
-            self.leds.shuffle_random(blue=False)
+            self.leds.fade_in(n_steps=20, color=(127,127,0), wait=0.02 )
+            self.leds.fade_out(n_steps=20, color=(127,127,0),wait=0.02 )
+            self.leds.shuffle_random(blue=False, wait=0.02)
             self.leds.pixels_off()
             
     def anim_cool_arc_en_ciel(self, nb_repet=1):
         self.leds.animation='rainbow_cycle'
         for i in range(nb_repet):
-            self.leds.rainbow_cycle()
+            self.leds.rainbow_cycle(wait=0.02)
     
     def anim_cool_random(self, nb_repet=1):
         for i in range(nb_repet):
@@ -71,11 +71,10 @@ class Application:
     
     def loop(self):
         while(True):
-            self.anim_cool_clignotante(nb_repet=1)
-            self.anim_cool_arc_en_ciel(nb_repet=1)
-            self.anim_cool_random(nb_repet=1)
-            self.anim_cool_mono_wheel(nb_repet=1)  
+            self.anim_cool_clignotante(nb_repet=5)
+            self.anim_cool_arc_en_ciel(nb_repet=5)
+            self.anim_cool_random(nb_repet=5)
+            self.anim_cool_mono_wheel(nb_repet=5)  
 
 appl=Application()
-
 

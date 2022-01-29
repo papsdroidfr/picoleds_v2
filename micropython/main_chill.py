@@ -14,38 +14,46 @@ class Application:
         self.id_anim=0
         self.l_anims = ['mono_wheel', 'rainbow_cycle', 'random', 'fill', 'fill', 'off']
         self.leds.animation = self.l_anims[0]
+        self.bouncetime = 0.05 #stabilization period with push button
         #callback function called with push button
         self.button.irq(self.callback, Pin.IRQ_FALLING)
+        self.buttonPressed = False #button not pressed
         self.ledStatus.value(1)
         self.loop()  #inifinite loop of events     
     
     def callback(self, pin):
         ''' callback function called when buton is pushed '''
-        time.sleep(0.05) # wait 50ms : stabilization to avoid rebounds.
-        if not(self.button.value()): # buton still pressed after the stabilization period ?
-            self.id_anim = (self.id_anim+1) % len(self.l_anims)
-            self.leds.animation = self.l_anims[self.id_anim] #name animation change
-            self.ledStatus.value(1)
-            print('button pressed', pin.irq().flags())
-            print('animation: ', self.leds.animation)
-            #transition to play
-            if self.id_anim==0:
-                pass
-            elif self.id_anim==1:
-                pass
-            elif self.id_anim==2:
-                pass
-            elif self.id_anim==3:
-                self.leds.fade_in(10, self.leds.BLUE, 0.05)
-            elif self.id_anim==4:
-                self.leds.fade_out(10, self.leds.BLUE, 0.05)
-                self.leds.fade_in(10, self.leds.PURPLE, 0.05)
-            else:
-                self.leds.fade_out(10, self.leds.PURPLE, 0.05)
-                self.ledStatus.value(0)         
+        time.sleep(self.bouncetime)  # wait stabilization to avoid rebounds.
+        if not(self.button.value()): # push button still pressed after the stabilization period ?
+            if (self.buttonPressed == False) : # run only 1 time the callback
+                
+                self.buttonPressed = True
+                
+                self.id_anim = (self.id_anim+1) % len(self.l_anims)
+                self.leds.animation = self.l_anims[self.id_anim] #name animation change
+                self.ledStatus.value(1)
+                print('button pressed', pin.irq().flags())
+                print('animation: ', self.leds.animation)
+                
+                #transition to play
+                if self.id_anim==0:
+                    pass
+                elif self.id_anim==1:
+                    pass
+                elif self.id_anim==2:
+                    pass
+                elif self.id_anim==3:
+                    self.leds.fade_in(10, self.leds.BLUE, 0.05)
+                elif self.id_anim==4:
+                    self.leds.fade_out(10, self.leds.BLUE, 0.05)
+                    self.leds.fade_in(10, self.leds.PURPLE, 0.05)
+                else:
+                    self.leds.fade_out(10, self.leds.PURPLE, 0.05)
+                    self.ledStatus.value(0)         
     
     def loop(self):
         while(True):
+            self.buttonPressed = False
             if self.id_anim==0:
                 self.leds.mono_wheel(delay=0.5)
             elif self.id_anim==1:
@@ -63,4 +71,6 @@ class Application:
                 time.sleep(0.5)
 
 appl=Application()
+
+
 
